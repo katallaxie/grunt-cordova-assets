@@ -1,11 +1,3 @@
-/*
- * grunt-cordovacli
- * https://github.com/csantana23/grunt-cordovacli
- *
- * Copyright (c) 2013 Carlos Santana
- * Licensed under the Apache-2.0 license.
- */
-
 'use strict';
 
 module.exports = (grunt) => {

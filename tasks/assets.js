@@ -65,8 +65,21 @@ module.exports = (grunt) => {
     };
   }
 
-  function mkdir(dir) {
-    grunt.file.mkdir(dir);
+  function mkdir (dir) {
+    grunt.util.mkdir(dir);
+  }
+
+  function isImage(file) {
+    try {
+      if (fs.statSync(file).isFile()) {
+        return true;
+      }
+    } catch (error) {
+      if (error.code == 'ENOENT') {
+        log.fail(`${file} does not exists or is not an image.`);
+      }
+      return false;
+    }
   }
 
   grunt.registerMultiTask('assets', 'Creates icons, splash screens, or store assets for a Cordova project', function() {
@@ -106,7 +119,7 @@ module.exports = (grunt) => {
       // ok, do we have the available platforms in the queue?
       if (options.platforms.indexOf(platform.name) !== -1) {
         // check for icons
-        if (fs.statSync(options.icon).isFile()) {
+        if (isImage(options.icon)) {
           let dir = options.expand ? path.join(this.files[0].dest, 'icons', platform.name) : this.files[0].dest;
           // create dir
           mkdir(dir);
